@@ -29,6 +29,4 @@ func main() {
 	}
 
 	bs.printOrder()
-
-	w1.printInfo()
 }

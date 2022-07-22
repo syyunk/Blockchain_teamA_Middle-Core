@@ -30,12 +30,10 @@ func makeWallet(Prvkey ecdsa.PrivateKey, Pubkey []byte, Alias string) *Wallet {
 
 	Address := base58.CheckEncode(publicRIPEMD160, version)
 
-	fmt.Println(Address)
-
+	w.Alias = Alias
 	w.Prvkey = Prvkey
 	w.Pubkey = Pubkey
 	w.Address = Address
-	w.Alias = Alias
 
 	return w
 }
@@ -73,21 +71,8 @@ func (Wallets *Wallets) addWallet(wallet *Wallet) {
 }
 
 func (Wallet *Wallet) printInfo() {
-	fmt.Println("Alias :", Wallet.Alias)
-	fmt.Println("Address :", Wallet.Address)
+	fmt.Printf("Alias : %s\n", Wallet.Alias)
+	fmt.Printf("Address : %s\n", Wallet.Address)
 	fmt.Printf("PublicKey : %x\n", Wallet.Pubkey)
-	fmt.Println("PrivateKey :", Wallet.Prvkey)
+	fmt.Printf("PrivateKey : %s\n", Wallet.Prvkey)
 }
-
-// func main() {
-
-// encoded := base58.Encode(pubKey)
-
-// decoded := base58.Decode(encoded)
-
-// 	// if bytes.Equal(pubKey, decoded) {
-// 	// 	fmt.Println("Same\n")
-// 	// } else {
-// 	// 	fmt.Println("Not same\n")
-// 	// }
-// }

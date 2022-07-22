@@ -17,17 +17,14 @@ type Tx struct {
 }
 
 func NewTx(from []byte, to []byte, amount int64) *Tx {
-	tx := &Tx{}
+	tx := &Tx{[]byte{}, from, to, []byte{}, amount}
 
 	loc, _ := time.LoadLocation("Asia/Seoul")
 	now := time.Now()
 	t := now.In(loc)
 
-	tx.From = from
-	tx.To = to
-	tx.Amount = amount
-	tx.Timestamp = []byte(t.String())
 	tx.Txid = tx.setHash()
+	tx.Timestamp = []byte(t.String())
 
 	return tx
 }
@@ -58,27 +55,27 @@ func NewTransactions(t *Tx) *transactions {
 	return txs
 }
 
-//------------------------
-// 1 Tx -> 1 Block
-// n Txs -> 1 Block
-func (t *Tx) isExisted(txid []byte) bool {
-	// ToDo
-	// n Txs -> 1 Block
-	return bytes.Equal(t.Txid, txid)
+func (txs *transactions) isExisted(txid []byte) bool {
+	if txs.getTransaction(txid) != nil {
+		return true
+	}
+	return false
 }
 
 func (t *Tx) setHash() []byte {
 	sha := sha256.New()
+
 	sha.Write(t.From)
 	sha.Write(t.To)
 	sha.Write(t.Timestamp)
 	sha.Write([]byte(strconv.FormatInt(t.Amount, 10)))
+
 	hash := sha.Sum(nil)
 
 	return hash
 }
 
-func (txs *transactions) addBlock(t *Tx) error {
+func (txs *transactions) addTx(t *Tx) error {
 	// 최신 블록체인의 높이를 구한다.
 	currentHeight := len(txs.Txs) - 1
 
@@ -94,9 +91,7 @@ func (txs *transactions) getTransaction(txid []byte) *Tx {
 	for {
 		if bytes.Equal(txs.Txs[currentIndex].Txid, txid) {
 			return txs.Txs[currentIndex]
-		}
-
-		if currentIndex == 0 {
+		} else if currentIndex == 0 {
 			return nil
 		} else {
 			currentIndex -= 1
