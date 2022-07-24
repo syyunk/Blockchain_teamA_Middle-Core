@@ -22,20 +22,18 @@ type Wallets struct {
 	wallets map[string]*Wallet
 }
 
-func makeWallet(Prvkey ecdsa.PrivateKey, Pubkey []byte, Alias string) *Wallet {
+func makeWallet(prvkey ecdsa.PrivateKey, pubkey []byte, alias string) *Wallet {
 	w := &Wallet{}
 
-	publicRIPEMD160 := HashPubKey(Pubkey)
+	publicRIPEMD160 := HashPubKey(pubkey)
 	version := byte(0x00)
 
 	Address := base58.CheckEncode(publicRIPEMD160, version)
 
-	fmt.Println(Address)
-
-	w.Prvkey = Prvkey
-	w.Pubkey = Pubkey
+	w.Prvkey = prvkey
+	w.Pubkey = pubkey
 	w.Address = Address
-	w.Alias = Alias
+	w.Alias = alias
 
 	return w
 }
@@ -58,9 +56,12 @@ func newKeyPair() (ecdsa.PrivateKey, []byte) {
 
 func HashPubKey(pubKey []byte) []byte {
 	publicSHA256 := sha256.Sum256(pubKey)
+
 	RIPEMD160Hasher := ripemd160.New()
 	RIPEMD160Hasher.Write(publicSHA256[:])
+
 	publicRIPEMD160 := RIPEMD160Hasher.Sum(nil)
+
 	return publicRIPEMD160
 }
 
@@ -73,21 +74,8 @@ func (Wallets *Wallets) addWallet(wallet *Wallet) {
 }
 
 func (Wallet *Wallet) printInfo() {
-	fmt.Println("Alias :", Wallet.Alias)
-	fmt.Println("Address :", Wallet.Address)
+	fmt.Printf("Alias : %s\n", Wallet.Alias)
+	fmt.Printf("Address : %s\n", Wallet.Address)
 	fmt.Printf("PublicKey : %x\n", Wallet.Pubkey)
-	fmt.Println("PrivateKey :", Wallet.Prvkey)
+	fmt.Printf("PrivateKey : %s\n", Wallet.Prvkey)
 }
-
-// func main() {
-
-// encoded := base58.Encode(pubKey)
-
-// decoded := base58.Decode(encoded)
-
-// 	// if bytes.Equal(pubKey, decoded) {
-// 	// 	fmt.Println("Same\n")
-// 	// } else {
-// 	// 	fmt.Println("Not same\n")
-// 	// }
-// }
