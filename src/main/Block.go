@@ -49,7 +49,19 @@ func NewBlock(prevHash []byte, txs *transactions, height int64, data string) *Bl
 	b.Hash = b.setHash()
 	b.Timestamp = []byte(getTimestamp().String())
 
+	b.setPowInfo()
+
 	return b
+}
+
+func (b *Block) setHash() []byte {
+	sha := sha256.New()
+
+	sha.Write(b.PrevHash)
+	sha.Write([]byte(strconv.FormatInt(b.Height, 10)))
+	hash := sha.Sum(nil)
+
+	return hash
 }
 
 func (b *Block) setPowInfo() {
@@ -63,19 +75,6 @@ func (b *Block) setPowInfo() {
 	fmt.Printf("Produced Nonce : %d\n", b.Nonce)
 	fmt.Printf("-------------------------------------------------------------------------\n\n")
 
-}
-
-func (b *Block) printBlock() {
-	fmt.Println("==============================================Block Info==============================================")
-
-	fmt.Printf("Hash		: %x\n", b.Hash)
-	fmt.Printf("PrevHash	: %x\n", b.PrevHash)
-	fmt.Printf("Timestamp	: %x\n", b.Timestamp)
-	fmt.Printf("Saved Data	: %s\n", bytes.NewBuffer(b.Data).String())
-
-	b.Txs.printTxs()
-
-	fmt.Printf("====================================================================================================\n\n")
 }
 
 func (b *Block) getHeight() int64 {
@@ -94,12 +93,15 @@ func (b *Block) isExisted(txid []byte) bool {
 	return b.Txs.getTransaction(txid) != nil
 }
 
-func (b *Block) setHash() []byte {
-	sha := sha256.New()
+func (b *Block) printBlock() {
+	fmt.Println("==============================================Block Info==============================================")
 
-	sha.Write(b.PrevHash)
-	sha.Write([]byte(strconv.FormatInt(b.Height, 10)))
-	hash := sha.Sum(nil)
+	fmt.Printf("Hash		: %x\n", b.Hash)
+	fmt.Printf("PrevHash	: %x\n", b.PrevHash)
+	fmt.Printf("Timestamp	: %x\n", b.Timestamp)
+	fmt.Printf("Saved Data	: %s\n", bytes.NewBuffer(b.Data).String())
 
-	return hash
+	b.Txs.printTxs()
+
+	fmt.Printf("====================================================================================================\n\n")
 }

@@ -23,7 +23,7 @@ func main() {
 	tx := NewTransaction([]byte(w1.Address), []byte(w2.Address), 10000)
 	txs := NewTransactions(tx)
 
-	for i := 1; i < 100; i++ {
+	for i := 1; i < 5; i++ {
 		prevBlock := bs.findBlock(int64(len(bs.blockchain) - 1))
 		temp := NewBlock(prevBlock.Hash, txs, prevBlock.Height, strconv.FormatInt(int64(i), 10)+"번째 블록")
 		bs.blockchain[bytes.NewBuffer(temp.Hash).String()] = temp

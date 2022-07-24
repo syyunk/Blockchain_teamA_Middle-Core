@@ -65,12 +65,12 @@ func HashPubKey(pubKey []byte) []byte {
 	return publicRIPEMD160
 }
 
-func (Wallets *Wallets) getWallet(address string) *Wallet {
-	return Wallets.wallets[address]
-}
-
 func (Wallets *Wallets) addWallet(wallet *Wallet) {
 	Wallets.wallets[wallet.Address] = wallet
+}
+
+func (Wallets *Wallets) getWallet(address string) *Wallet {
+	return Wallets.wallets[address]
 }
 
 func (Wallet *Wallet) printInfo() {
