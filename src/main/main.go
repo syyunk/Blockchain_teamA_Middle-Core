@@ -2,20 +2,21 @@ package main
 
 import (
 	"bytes"
+	"src/wallet"
 	"strconv"
 )
 
 func main() {
 	firstBlock := GenesisBlock()
 
-	ws := makeWallets()
+	ws := wallet.makeWallets()
 	bs := NewBlockchain(firstBlock)
 
-	prvKey, pubKey := newKeyPair()
-	prvKey2, pubKey2 := newKeyPair()
+	prvKey, pubKey := wallet.newKeyPair()
+	prvKey2, pubKey2 := wallet.newKeyPair()
 
-	w1 := makeWallet(prvKey, pubKey, "JamesBond")
-	w2 := makeWallet(prvKey2, pubKey2, "Company")
+	w1 := wallet.makeWallet(prvKey, pubKey, "JamesBond")
+	w2 := wallet.makeWallet(prvKey2, pubKey2, "Company")
 
 	ws.wallets[w1.Address] = w1
 	ws.wallets[w2.Address] = w2

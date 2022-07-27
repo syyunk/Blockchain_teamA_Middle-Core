@@ -1,9 +1,10 @@
-package main
+package transaction
 
 import (
 	"bytes"
 	"crypto/sha256"
 	"fmt"
+	"src/util"
 	"strconv"
 )
 
@@ -24,7 +25,7 @@ func NewTransaction(from []byte, to []byte, amount int64) *Tx {
 	tx.To = to
 
 	tx.Amount = amount
-	tx.Timestamp = []byte(getTimestamp().String())
+	tx.Timestamp = []byte(util.GetTimestamp().String())
 
 	return tx
 }
