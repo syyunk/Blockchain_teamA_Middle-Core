@@ -11,18 +11,16 @@ import (
 	"golang.org/x/crypto/ripemd160"
 )
 
+var wallets = make(map[string]*Wallet)
+
 type Wallet struct {
-	Prvkey  ecdsa.PrivateKey
+	Prvkey  *ecdsa.PrivateKey
 	Pubkey  []byte
 	Address string
 	Alias   string
 }
 
-type Wallets struct {
-	wallets map[string]*Wallet
-}
-
-func makeWallet(prvkey ecdsa.PrivateKey, pubkey []byte, alias string) *Wallet {
+func MakeWallet(prvkey *ecdsa.PrivateKey, pubkey []byte, alias string) *Wallet {
 	w := &Wallet{}
 
 	publicRIPEMD160 := HashPubKey(pubkey)
@@ -38,14 +36,14 @@ func makeWallet(prvkey ecdsa.PrivateKey, pubkey []byte, alias string) *Wallet {
 	return w
 }
 
-func makeWallets() *Wallets {
-	Wallets := &Wallets{}
-	Wallets.wallets = make(map[string]*Wallet)
+//func makeWallets() *Wallets {
+//	Wallets := &Wallets{}
+//	Wallets.wallets = make(map[string]*Wallet)
+//
+//	return Wallets
+//}
 
-	return Wallets
-}
-
-func newKeyPair() (ecdsa.PrivateKey, []byte) {
+func NewKeyPair() (ecdsa.PrivateKey, []byte) {
 	curve := elliptic.P256()
 	prvKey, _ := ecdsa.GenerateKey(curve, rand.Reader)
 	pubKey := prvKey.PublicKey
@@ -65,13 +63,13 @@ func HashPubKey(pubKey []byte) []byte {
 	return publicRIPEMD160
 }
 
-func (Wallets *Wallets) addWallet(wallet *Wallet) {
-	Wallets.wallets[wallet.Address] = wallet
-}
-
-func (Wallets *Wallets) getWallet(address string) *Wallet {
-	return Wallets.wallets[address]
-}
+//func (Wallets *Wallets) addWallet(wallet *Wallet) {
+//	Wallets.wallets[wallet.Address] = wallet
+//}
+//
+//func (Wallets *Wallets) getWallet(address string) *Wallet {
+//	return Wallets.wallets[address]
+//}
 
 func (Wallet *Wallet) printInfo() {
 	fmt.Printf("Alias : %s\n", Wallet.Alias)
