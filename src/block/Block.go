@@ -28,16 +28,16 @@ func GenesisBlock() *Block {
 		[]byte{},
 		[]byte{},
 		-1,
-		"The Times 03/Jan/2009 Chanceller on brink of second bailout for banks",
+		[]byte("The Times 03/Jan/2009 Chanceller on brink of second bailout for banks"),
 	)
 }
 
-func NewBlock(prevHash []byte, txid []byte, height int64, data string) *Block {
+func NewBlock(prevHash []byte, txid []byte, height int64, data []byte) *Block {
 	b := &Block{
 		[]byte{},
 		prevHash,
 		[]byte{},
-		[]byte(data),
+		data,
 		[]byte{},
 		txid,
 		byte(0x00),
@@ -47,6 +47,9 @@ func NewBlock(prevHash []byte, txid []byte, height int64, data string) *Block {
 	}
 
 	b.Hash = b.setHash()
+
+	fmt.Println(b.Hash)
+
 	b.Timestamp = []byte(util.GetTimestamp().String())
 
 	b.setPowInfo()
