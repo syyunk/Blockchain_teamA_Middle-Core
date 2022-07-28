@@ -24,7 +24,7 @@ func (pow *ProofOfWork) prepareData(nonce int) []byte {
 		pow.block.PrevHash,
 		pow.block.Data,
 		pow.block.Timestamp,
-		pow.block.Txs.JoinAllHash(),
+		pow.block.Txid,
 		IntToHex(int64(targetBites)),
 		IntToHex(int64(nonce)),
 	}, []byte{})
