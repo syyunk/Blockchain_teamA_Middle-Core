@@ -2,7 +2,6 @@ package httpServer
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"src/transaction"
 )
@@ -28,8 +27,7 @@ func GenerateTx(wr http.ResponseWriter, req *http.Request) {
 	err := decoder.Decode(&body)
 
 	if err != nil {
-		fmt.Println(err)
-		return
+		panic(err)
 	}
 
 	tx := transaction.NewTransaction([]byte(body.From), []byte(body.To), body.Amount)

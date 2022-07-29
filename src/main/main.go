@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"src/block"
 	"src/httpServer"
 	"src/restAPI"
 
@@ -12,11 +11,10 @@ import (
 
 func main() {
 	router := mux.NewRouter()
-	block.NewBlockchain(block.GenesisBlock())
 
 	router.HandleFunc("/MakeWallet", restAPI.MakeWallet).Methods("POST")
 	router.HandleFunc("/GetWalletInfo", restAPI.GetWalletInfo).Methods("POST")
-	//router.HandleFunc("/GetAllTransaction")
+	router.HandleFunc("/BlockManagement", restAPI.BlockManagement).Methods("POST")
 
 	router.HandleFunc("/GenerateTx", httpServer.GenerateTx).Methods("POST")
 	router.HandleFunc("/GenerateBlock", httpServer.GenerateBlock).Methods("POST")

@@ -7,20 +7,14 @@ import (
 	"src/block"
 )
 
-type BlockRequest struct {
-	From   string `json:"From"`
-	To     string `json:"To"`
-	Amount int64  `json:"Amount"`
-}
-
 type BlockResponse struct {
 	Hash string
 }
 
-func GenerateBlock(wr http.ResponseWriter, req *http.Request) {
+func GenerateBlock(rw http.ResponseWriter, req *http.Request) {
 	var body TxResponse
 
-	resp, err := http.Post("http://localhost:8000/GenerateTx", "application/json", req.Body)
+	resp, err := http.Post("http://localhost:10000/GenerateTx", "application/json", req.Body)
 
 	if err != nil {
 		panic(err)
@@ -39,13 +33,13 @@ func GenerateBlock(wr http.ResponseWriter, req *http.Request) {
 	b := block.NewBlock(
 		block.GetCurrentBlockId(),
 		body.Txid,
-		int64(len(block.Blockchain)),
+		int64(len(block.Blockchain)-1),
 		[]byte(""),
 	)
 
 	block.AddBlock(b)
 
 	response := &BlockResponse{Hash: fmt.Sprintf("%x", b.Hash)}
-	wr.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(wr).Encode(response)
+	rw.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(rw).Encode(response)
 }

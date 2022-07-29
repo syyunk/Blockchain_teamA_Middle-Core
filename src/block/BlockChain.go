@@ -2,6 +2,7 @@ package block
 
 import (
 	"bytes"
+	"fmt"
 )
 
 var Blockchain = make(map[string]*Block)
@@ -14,6 +15,9 @@ func AddBlock(b *Block) {
 	curBlockID := GetCurrentBlockId()
 
 	b.PrevHash = Blockchain[bytes.NewBuffer(curBlockID).String()].Hash
+
+	fmt.Printf("%x\n", b.Hash)
+	fmt.Printf("%x", b.PrevHash)
 
 	Blockchain[bytes.NewBuffer(b.Hash).String()] = b
 }
