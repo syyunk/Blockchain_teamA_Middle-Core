@@ -1,4 +1,4 @@
-package restAPI
+package httpServer
 
 import (
 	"encoding/json"
