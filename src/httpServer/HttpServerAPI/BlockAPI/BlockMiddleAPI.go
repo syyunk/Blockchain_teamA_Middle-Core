@@ -1,31 +1,10 @@
-package restAPI
+package BlockAPI
 
 import (
 	"bytes"
 	"encoding/json"
 	"net/http"
 )
-
-type ManagementRequest struct {
-	From    string `json:"From"`
-	To      string `json:"To"`
-	Purpose string `json:"Purpose"`
-	Amount  int64  `json:"Amount"`
-}
-
-type MakeBlockArgs struct {
-	From   string `json:"From"`
-	To     string `json:"To"`
-	Amount int64  `json:"Amount"`
-}
-
-type MakeBlockResponse struct {
-	Hash string
-}
-
-type RefBlockArgs struct {
-	From string `json:"From"`
-}
 
 func BlockManagement(rw http.ResponseWriter, req *http.Request) {
 	var managementRequest ManagementRequest

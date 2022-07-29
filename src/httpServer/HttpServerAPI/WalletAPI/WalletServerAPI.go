@@ -1,4 +1,4 @@
-package restAPI
+package WalletAPI
 
 import (
 	"encoding/json"
@@ -7,18 +7,6 @@ import (
 	"net/http"
 	"net/rpc"
 )
-
-type WalletArgs struct {
-	Alias   string
-	Address string
-}
-
-type WalletReply struct {
-	Alias   string
-	Address string
-	PrvKey  []byte
-	PubKey  []byte
-}
 
 func GetRpcConnection() *rpc.Client {
 	client, err := rpc.Dial("tcp", "127.0.0.1:6000")

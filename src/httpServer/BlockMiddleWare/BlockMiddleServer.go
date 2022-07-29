@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
-	"src/httpServer"
+	"src/httpServer/HttpServerAPI/BlockAPI"
 )
 
 func main() {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/GenerateTx", httpServer.GenerateTx).Methods("POST")
+	router.HandleFunc("/MainBlockServer", BlockAPI.BlockManagement).Methods("POST")
 
 	http.Handle("/", router)
 	err := http.ListenAndServe(":10000", nil)
