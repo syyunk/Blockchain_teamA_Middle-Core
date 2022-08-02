@@ -1,18 +1,17 @@
-
 create table wallet (
-	walletid varchar(255) not null primary key,
+	walletid varchar(255) primary key auto_increment,
     balance bigint not null
 );
 
 create table members(
-	mnum bigint not null primary key,
+	mnum bigint primary key auto_increment,
     walletid varchar(255) not null, -- 
-    id varchar(255) not null, -- 낫널
+    id varchar(255) not null, 
     pw varchar(255) not null,
     nickname varchar(255) not null,
-    tel varchar(20) not null,
+    tel varchar(255) not null,
     addr varchar(255) not null,
-    star int,
+    star float,
 	regdate datetime(6) not null,
 	moddate datetime(6) not null,
     foreign key (walletid) references wallet (walletid)
@@ -25,38 +24,38 @@ create table member_auth (
 
 
 create table product (
-	pnum bigint not null primary key auto_increment,
+	pnum bigint primary key auto_increment auto_increment,
 	mnum bigint not null, 
 	name varchar(255) not null,
-	price int not null,
+	price integer not null,
 	regdate datetime(6) not null,
 	moddate datetime(6) not null,
 	thumb varchar(255),
 	detail varchar(255),
     foreign key (mnum) references members (mnum)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='product';
 
 create table product_img_file (
-	imgnum bigint primary key not null auto_increment,
+	imgnum bigint primary key auto_increment auto_increment,
     imgname varchar(255) not null,
     imgtype varchar(255) not null,
 	foreign key (imgnum) references product (pnum)
 );
 
 create table trade(
-	onum bigint  not null primary key auto_increment , -- PK int type
+	onum bigint primary key auto_increment , -- PK int type
     bmnum varchar(255) not null, -- 회원번호
     smnum varchar(255) not null,
     odate datetime(6) not null, -- 
     pnum bigint not null,
     txid varchar(255) not null,
-    ototal int not null,
+    ototal integer not null,
     foreign key (pnum) references product (pnum)
 );
 
--- drop table trade;
--- drop table product_img_file;
--- drop table product;
--- drop table member_auth;
--- drop table members;
--- drop table wallet;
+ drop table trade;
+ drop table product_img_file;
+ drop table product;
+ drop table member_auth;
+ drop table members;
+ drop table wallet;
