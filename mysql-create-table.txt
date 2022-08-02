@@ -1,36 +1,11 @@
-create table product (
-	mnum int not null, 
-	pnum int not null primary key auto_increment,
-	pname varchar(20) not null,
-	pprice int not null,
-	prdate date not null,
-	thumb varchar(255),
-	detail varchar(255),
-    foreign key (mnum) references members (mnum)
-);
 
-create table product_img_file (
-	inum int primary key not null auto_increment,
-    pnum int not null,
-    iname varchar(50) not null,
-    itype varchar(50) not null,
-	foreign key (pnum) references products (pnum)
-);
-
-create table orders(
-	onum bigint  not null primary key auto_increment , -- PK int type
-    bmnum varchar(255) not null, -- 회원번호
-    smnum varchar(255) not null,
-    ototal int not null,
-    odate date not null,
-    pnum int not null,
-    blockid varchar(255) not null, -- 
-    txid varchar(255) not null,
-    foreign key (pnum) references product (pnum)
+create table wallet (
+	walletid varchar(255) not null primary key,
+    balance bigint not null
 );
 
 create table members(
-	mnum int not null primary key,
+	mnum bigint not null primary key,
     walletid varchar(255) not null, -- 
     id varchar(255) not null, -- 낫널
     pw varchar(255) not null,
@@ -38,16 +13,50 @@ create table members(
     tel varchar(20) not null,
     addr varchar(255) not null,
     star int,
+	regdate datetime(6) not null,
+	moddate datetime(6) not null,
     foreign key (walletid) references wallet (walletid)
 );
-
-create table wallet (
-	walletid varchar(255) not null primary key,
-    balance int not null
-);
-
 create table member_auth (
-	mnum int not null,
-    auth varchar(50) not null,
+	mnum bigint not null,
+    auth varchar(255) not null,
     foreign key (mnum) references members (mnum)
 );
+
+
+create table product (
+	pnum bigint not null primary key auto_increment,
+	mnum bigint not null, 
+	name varchar(255) not null,
+	price int not null,
+	regdate datetime(6) not null,
+	moddate datetime(6) not null,
+	thumb varchar(255),
+	detail varchar(255),
+    foreign key (mnum) references members (mnum)
+);
+
+create table product_img_file (
+	imgnum bigint primary key not null auto_increment,
+    imgname varchar(255) not null,
+    imgtype varchar(255) not null,
+	foreign key (imgnum) references product (pnum)
+);
+
+create table trade(
+	onum bigint  not null primary key auto_increment , -- PK int type
+    bmnum varchar(255) not null, -- 회원번호
+    smnum varchar(255) not null,
+    odate datetime(6) not null, -- 
+    pnum bigint not null,
+    txid varchar(255) not null,
+    ototal int not null,
+    foreign key (pnum) references product (pnum)
+);
+
+-- drop table trade;
+-- drop table product_img_file;
+-- drop table product;
+-- drop table member_auth;
+-- drop table members;
+-- drop table wallet;
