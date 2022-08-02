@@ -1,5 +1,5 @@
 create table wallet (
-	walletid varchar(255) primary key auto_increment,
+	walletid varchar(255) primary key,
     balance bigint not null
 );
 
@@ -33,14 +33,14 @@ create table product (
 	thumb varchar(255),
 	detail varchar(255),
     foreign key (mnum) references members (mnum)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='product';
+) ;
 
 create table product_img_file (
 	imgnum bigint primary key auto_increment auto_increment,
     imgname varchar(255) not null,
     imgtype varchar(255) not null,
 	foreign key (imgnum) references product (pnum)
-);
+) ;
 
 create table trade(
 	onum bigint primary key auto_increment , -- PK int type
